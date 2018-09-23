@@ -1,0 +1,12 @@
+version: '3'
+services:
+  react:
+    build:
+      context: ./react
+    image: react
+    container_name: react_container
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./react/app:/home/app
+    tty: true
