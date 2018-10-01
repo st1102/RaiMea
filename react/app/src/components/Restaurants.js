@@ -1,11 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 // import { BrowserRouter, Route, Link } from 'react-router-dom'
-import styles from '../assets/restaurants.css'
+// import styles from '../assets/restaurants.css'
 
 const Restaurants = () => (
-  <div>
-    <h2 className={styles.topTitle}>Restaurants</h2>
-    <p>Restaurants</p>
-  </div>
+  <div>Restaurants</div>
 )
 export default Restaurants

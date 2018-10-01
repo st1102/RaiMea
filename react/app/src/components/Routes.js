@@ -1,11 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 // import { BrowserRouter, Route, Link } from 'react-router-dom'
-import styles from '../assets/routes.css'
+// import styles from '../assets/routes.css'
 
 const Routes = () => (
-  <div>
-    <h2 className={styles.topTitle}>Routes</h2>
-    <p>Routes</p>
-  </div>
+  <div>Routes</div>
 )
 export default Routes
