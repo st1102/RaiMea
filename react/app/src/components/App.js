@@ -11,13 +11,21 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
+// import topBackgroundImage from '../assets/image/top_background.jpg';
+
 // const style = {
 //
 // };
 
 const styles = {
   div: {
-
+    height: '100%',
+    width: '100%',
+    overflow: 'hidden',
+  },
+  appBar: {
+    width: 'calc(100% - 20px)',
+    margin: '10px',
   },
   grow: {
     flexGrow: 1,
@@ -41,7 +49,7 @@ const App = (props) => {
   return (
     <BrowserRouter>
       <div className={classes.div}>
-        <AppBar position='static' color='default'>
+        <AppBar position='static' color='default' className={classes.appBar}>
           <Toolbar>
             <div className={classes.grow} />
             <Link to='/' className={classes.titleLink}>
