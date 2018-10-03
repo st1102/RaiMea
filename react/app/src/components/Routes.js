@@ -8,7 +8,7 @@ const styles = {
   div: {
     position: 'absolute',
     top: 0,
-    height: '100%',
+    height: 'calc(100% - 10px - 10px)',
     width: '100%',
     padding: '10px',
     // backgroundImage: 'url(../src/assets/image/top_background.jpg)',

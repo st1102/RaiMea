@@ -9,7 +9,7 @@ import Restaurant from './Restaurant'
 // import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, IconButton} from '@material-ui/core';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 // import topBackgroundImage from '../assets/image/top_background.jpg';
 
