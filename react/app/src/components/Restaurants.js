@@ -13,7 +13,7 @@ const styles = {
     padding: '10px',
     // backgroundImage: 'url(../src/assets/image/top_background.jpg)',
     // backgroundSize: 'cover',
-    zIndex: -1,
+    // zIndex: -1,
     overflow: 'hidden',
   },
   innerDiv: {

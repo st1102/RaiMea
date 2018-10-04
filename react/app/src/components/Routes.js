@@ -13,16 +13,18 @@ const styles = {
     padding: '10px',
     // backgroundImage: 'url(../src/assets/image/top_background.jpg)',
     // backgroundSize: 'cover',
-    zIndex: -1,
+    // zIndex: -1,
     overflow: 'hidden',
   },
   innerDiv: {
     marginTop: 'calc(64px + 10px)',
+    color: 'white',
   },
 };
 
 const Routes = (props) => {
   const { classes } = props;
+  const { data } = props.location.state.data;
   return (
     <div className={classes.div}>
       <div className={classes.innerDiv}>

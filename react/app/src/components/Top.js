@@ -1,9 +1,10 @@
 import React from 'react'
 // import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { withRouter } from 'react-router';
 // import styles from '../assets/top.css'
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { TextField } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 
 const styles = {
   div: {
@@ -47,6 +48,13 @@ const inputProps = {
 
 
 const Top = (props) => {
+  const showRoutes = () => {
+    props.history.push({
+      pathname: '/routes',
+      state: { data: 1 }
+    })
+  }
+
   const { classes } = props;
   return (
     <div className={classes.div}>
@@ -71,6 +79,9 @@ const Top = (props) => {
           label="到着駅"
           InputProps={inputProps}
         />
+      <Button variant="outlined" color="secondary" onClick={showRoutes}>
+          検索
+      </Button>
       </div>
     </div>
   )
@@ -78,6 +89,7 @@ const Top = (props) => {
 
 Top.propTypes = {
   classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Top);
+export default withRouter(withStyles(styles)(Top));
