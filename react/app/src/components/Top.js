@@ -5,6 +5,8 @@ import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { TextField, Button } from '@material-ui/core';
+import axios from 'axios';
+import stationKey from '../../key.js'
 
 const styles = {
   div: {
@@ -40,56 +42,92 @@ const styles = {
     flexBasis: '30%',
     margin: '0 10% 0 10%',
   }
-};
+}
 
 const inputProps = {
   step: 300,
-};
+}
 
+class Top extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      lineName: '',
+    }
+    this.showRestaurants = this.showRestaurants.bind(this)
+    this.showLineSuggest = this.showLineSuggest.bind(this)
+  }
 
-const Top = (props) => {
-  const showRoutes = () => {
-    props.history.push({
-      pathname: '/routes',
-      state: { data: 1 }
+  showRestaurants(){
+    this.props.history.push({
+      pathname: '/restaurants',
     })
   }
 
-  const { classes } = props;
-  return (
-    <div className={classes.div}>
-      <div　className={classes.pageDesc}>
-        電車経路沿線の飲食店を一括検索！！
-      </div>
-      <div className={classes.textFields}>
-        <div className={classes.tFieldDesc}>
-          出発駅と到着駅を入力し検索！！
+  showLineSuggest(event){
+    console.log(event.target.name, event.target.value)
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+    // axios
+    // .get('https://api.ekispert.jp/v1/json/operationLine?key=' + stationKey, { params: {
+    //   'name': this.state.lineName,
+    // }})
+    // .then((results) => {
+    //     console.log(results)
+    // })
+    // .catch((error) => {
+    //     console.log(error)
+    // })
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.div}>
+        <div　className={classes.pageDesc}>
+          電車経路沿線の飲食店を一括検索！！
         </div>
-        <TextField
-          id="id"
-          className={classes.textField}
-          variant="outlined"
-          label="出発駅"
-          InputProps={inputProps}
-        />
-        <TextField
-          id="id"
-          className={classes.textField}
-          variant="outlined"
-          label="到着駅"
-          InputProps={inputProps}
-        />
-      <Button variant="outlined" color="secondary" onClick={showRoutes}>
+        <div className={classes.textFields}>
+          <div className={classes.tFieldDesc}>
+            路線名から出発駅と到着駅を入力し検索！！
+          </div>
+          <TextField
+            id="id"
+            className={classes.textField}
+            variant="outlined"
+            label="路線"
+            InputProps={inputProps}
+            name="lineName"
+            value={this.state.lineName}
+            onChange={this.showLineSuggest}
+          />
+          <TextField
+            id="id"
+            className={classes.textField}
+            variant="outlined"
+            label="出発駅"
+            InputProps={inputProps}
+          />
+          <TextField
+            id="id"
+            className={classes.textField}
+            variant="outlined"
+            label="到着駅"
+            InputProps={inputProps}
+          />
+        <Button variant="outlined" color="secondary" onClick={this.showRestaurants}>
           検索
-      </Button>
+        </Button>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 Top.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-};
+}
 
 export default withRouter(withStyles(styles)(Top));
