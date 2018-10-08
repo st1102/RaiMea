@@ -2,9 +2,10 @@ import React from 'react'
 // import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { withRouter } from 'react-router';
 // import styles from '../assets/top.css'
-import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { TextField, Button } from '@material-ui/core';
+import Downshift from 'downshift';
+import { TextField, Button, Paper } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import stationKey from '../../key.js'
 
@@ -48,11 +49,18 @@ const inputProps = {
   step: 300,
 }
 
+let items = [
+  {Name: 'aaa'},
+  {Name: 'bbb'},
+  {Name: 'ccc'},
+]
+
 class Top extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       lineName: '',
+      railSuggestions: [],
     }
     this.showRestaurants = this.showRestaurants.bind(this)
     this.showLineSuggest = this.showLineSuggest.bind(this)
@@ -65,24 +73,32 @@ class Top extends React.Component {
   }
 
   showLineSuggest(event){
-    console.log(event.target.name, event.target.value)
+    // console.log(event.target.name, event.target.value)
     this.setState({
       [event.target.name]: event.target.value
     })
-    // axios
-    // .get('https://api.ekispert.jp/v1/json/operationLine?key=' + stationKey, { params: {
-    //   'name': this.state.lineName,
-    // }})
-    // .then((results) => {
-    //     console.log(results)
-    // })
-    // .catch((error) => {
-    //     console.log(error)
-    // })
+    axios
+    .get('https://api.ekispert.jp/v1/json/operationLine?key=' + stationKey + '&name=ＪＲ' + this.state.lineName
+    )
+    .then((results) => {
+      console.log(results)
+      if(results.data.ResultSet.Line){
+        this.setState({
+          railSuggestions: results
+        })
+        items = results.data.ResultSet.Line
+      } else {
+      }
+      console.log(this.state)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   render() {
     const { classes } = this.props;
+    console.log(items)
     return (
       <div className={classes.div}>
         <div　className={classes.pageDesc}>
@@ -92,16 +108,88 @@ class Top extends React.Component {
           <div className={classes.tFieldDesc}>
             路線名から出発駅と到着駅を入力し検索！！
           </div>
-          <TextField
-            id="id"
-            className={classes.textField}
-            variant="outlined"
-            label="路線"
-            InputProps={inputProps}
-            name="lineName"
-            value={this.state.lineName}
-            onChange={this.showLineSuggest}
-          />
+          <Downshift
+            id="rail-downshift"
+            itemToString={item => (item ? item.Name : '')}
+          >
+            {({
+              getInputProps,
+              getItemProps,
+              getMenuProps,
+              highlightedIndex,
+              inputValue,
+              isOpen,
+              selectedItem,
+            }) => (
+              <div className={classes.container}>
+                  <TextField
+                    id="id"
+                    className={classes.textField}
+                    variant="outlined"
+                    label="路線"
+                    InputProps={getInputProps({
+                      placeholder: 'Search a country (start with a)',
+                      onChange: this.showLineSuggest
+                    })}
+                    name="lineName"
+                    value={this.state.lineName}
+
+                  />
+                <div {...getMenuProps()}>
+                  {isOpen ? (
+                      (items.length > 1) ? (
+                        <Paper className={classes.paper} square>
+                          {items
+                          .filter(item => !inputValue || item.Name.includes(inputValue))
+                          .map((item, index) => (
+                            <div
+                              {...getItemProps({
+                                key: item.Name,
+                                index,
+                                item,
+                                style: {
+                                  backgroundColor: highlightedIndex === index
+                                    ? 'lightgray'
+                                    : 'white',
+                                  fontWeight: selectedItem === item
+                                    ? 'bold'
+                                    : 'normal',
+                                }
+                              })}
+                            >
+                              {item.Name}
+                            </div>
+                          ))}
+                        </Paper>)
+                      : (
+                        <Paper className={classes.paper} square>
+                          {items
+                          .filter(items => !inputValue || items.Name.includes(inputValue))
+                          .map((items, index) => (
+                            <div
+                              {...getItemProps({
+                                key: items.Name,
+                                index,
+                                item: items.Name,
+                                style: {
+                                  backgroundColor: highlightedIndex === index
+                                    ? 'lightgray'
+                                    : 'white',
+                                  fontWeight: selectedItem === items
+                                    ? 'bold'
+                                    : 'normal',
+                                },
+                              })}
+                            >
+                              {items.Name}
+                            </div>
+                          ))}
+                        </Paper>)
+                  ) : null}
+                </div>
+              </div>
+            )}
+          </Downshift>
           <TextField
             id="id"
             className={classes.textField}

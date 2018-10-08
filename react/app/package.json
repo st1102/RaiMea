@@ -12,6 +12,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^1.0.0",
+    "downshift": "^2.2.3",
     "html-webpack-plugin": "^3.2.0",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
