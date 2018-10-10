@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 // import styles from '../assets/top.css'
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
-import { TextField, Button, Paper } from '@material-ui/core';
+import { TextField, Button, Paper, MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import stationKey from '../../key.js'
@@ -49,21 +49,26 @@ const inputProps = {
   step: 300,
 }
 
-let items = [
-  {Name: 'aaa'},
-  {Name: 'bbb'},
-  {Name: 'ccc'},
-]
+// let items = [
+//   {Name: 'aaa'},
+//   {Name: 'bbb'},
+//   {Name: 'ccc'},
+// ]
 
 class Top extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       lineName: '',
-      railSuggestions: [],
+      railSuggestions: [
+        {Name: 'aaa'},
+        {Name: 'bbb'},
+        {Name: 'ccc'},
+      ],
     }
     this.showRestaurants = this.showRestaurants.bind(this)
     this.showLineSuggest = this.showLineSuggest.bind(this)
+    this.setLineName = this.setLineName.bind(this)
   }
 
   showRestaurants(){
@@ -74,19 +79,16 @@ class Top extends React.Component {
 
   showLineSuggest(event){
     // console.log(event.target.name, event.target.value)
-    this.setState({
-      [event.target.name]: event.target.value
-    })
     axios
-    .get('https://api.ekispert.jp/v1/json/operationLine?key=' + stationKey + '&name=ＪＲ' + this.state.lineName
+    .get('https://api.ekispert.jp/v1/json/operationLine?key=' + stationKey + '&name=ＪＲ' + event.target.value
     )
     .then((results) => {
       console.log(results)
       if(results.data.ResultSet.Line){
+        // items = results.data.ResultSet.Line
         this.setState({
-          railSuggestions: results
+          railSuggestions: results.data.ResultSet.Line,
         })
-        items = results.data.ResultSet.Line
       } else {
       }
       console.log(this.state)
@@ -94,11 +96,21 @@ class Top extends React.Component {
     .catch((error) => {
       console.log(error)
     })
+    this.setState({
+      [event.target.name]: event.target.value,
+    })
   }
+
+   setLineName(event){
+     this.state.lineName = event.target.value
+     // this.setState({
+     //   [event.target.name]: event.target.value,
+     // })
+     console.log(this.state)
+   }
 
   render() {
     const { classes } = this.props;
-    console.log(items)
     return (
       <div className={classes.div}>
         <div　className={classes.pageDesc}>
@@ -121,69 +133,58 @@ class Top extends React.Component {
               isOpen,
               selectedItem,
             }) => (
-              <div className={classes.container}>
+              <div>
                   <TextField
                     id="id"
-                    className={classes.textField}
                     variant="outlined"
                     label="路線"
                     InputProps={getInputProps({
                       placeholder: 'Search a country (start with a)',
-                      onChange: this.showLineSuggest
+                      onChange: this.showLineSuggest,
+                      onBlur: this.setLineName,
                     })}
                     name="lineName"
                     value={this.state.lineName}
-
                   />
                 <div {...getMenuProps()}>
-                  {isOpen ? (
-                      (items.length > 1) ? (
-                        <Paper className={classes.paper} square>
-                          {items
-                          .filter(item => !inputValue || item.Name.includes(inputValue))
-                          .map((item, index) => (
-                            <div
+                  {isOpen && inputValue.length !== 0　? (
+                      (this.state.railSuggestions.length > 1) ? (
+                        <Paper square>
+                          {this.state.railSuggestions
+                          .filter(suggestion => !inputValue || suggestion.Name.includes(inputValue))
+                          .map((suggestion, index) => (
+                            <MenuItem
                               {...getItemProps({
-                                key: item.Name,
+                                key: suggestion.Name,
                                 index,
-                                item,
-                                style: {
-                                  backgroundColor: highlightedIndex === index
-                                    ? 'lightgray'
-                                    : 'white',
-                                  fontWeight: selectedItem === item
-                                    ? 'bold'
-                                    : 'normal',
-                                }
+                                item: suggestion,
                               })}
+                              selected={highlightedIndex === index}
+                              component="div"
+                              style={{
+                                fontWeight: selectedItem === suggestion ? 500 : 400,
+                              }}
                             >
-                              {item.Name}
-                            </div>
+                              {suggestion.Name}
+                            </MenuItem>
                           ))}
                         </Paper>)
                       : (
-                        <Paper className={classes.paper} square>
-                          {items
-                          .filter(items => !inputValue || items.Name.includes(inputValue))
-                          .map((items, index) => (
-                            <div
+                        <Paper square>
+                          {(this.state.railSuggestions === !inputValue || this.state.railSuggestions.Name.includes(inputValue)) ?
+                            (<MenuItem
                               {...getItemProps({
-                                key: items.Name,
-                                index,
-                                item: items.Name,
-                                style: {
-                                  backgroundColor: highlightedIndex === index
-                                    ? 'lightgray'
-                                    : 'white',
-                                  fontWeight: selectedItem === items
-                                    ? 'bold'
-                                    : 'normal',
-                                },
+                                key: this.state.railSuggestions.Name,
+                                item: this.state.railSuggestions,
                               })}
+                              selected={highlightedIndex === index}
+                              component="div"
+                              style={{
+                                fontWeight: selectedItem === suggestions ? 500 : 400,
+                              }}
                             >
-                              {items.Name}
-                            </div>
-                          ))}
+                              {this.state.railSuggestions.Name}
+                            </MenuItem>) : null}
                         </Paper>)
                   ) : null}
                 </div>
@@ -216,6 +217,11 @@ class Top extends React.Component {
 Top.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  highlightedIndex: PropTypes.number,
+  index: PropTypes.number,
+  itemProps: PropTypes.object,
+  selectedItem: PropTypes.string,
+  // railSuggestion: PropTypes.shape({ Name: PropTypes.string }).isRequired,
 }
 
 export default withRouter(withStyles(styles)(Top));
