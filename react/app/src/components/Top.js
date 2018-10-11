@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 // import styles from '../assets/top.css'
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
+import Select from 'react-select';
 import { TextField, Button, Paper, MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
@@ -55,6 +56,12 @@ const inputProps = {
 //   {Name: 'ccc'},
 // ]
 
+// const items = [
+//       { value: 'nfb', label: 'NetFront Browser' },
+//       { value: 'nfnx', label: 'NetFront NX' },
+//       { value: 'nfbe', label: 'NetFront BE' },
+//       ];
+
 class Top extends React.Component {
   constructor(props) {
     super(props)
@@ -65,10 +72,22 @@ class Top extends React.Component {
         {Name: 'bbb'},
         {Name: 'ccc'},
       ],
+      depaSuggestions: [
+        { value: 'nfb', label: 'NetFront Browser' },
+        { value: 'nfnx', label: 'NetFront NX' },
+        { value: 'nfbe', label: 'NetFront BE' },
+      ],
+      destSuggestions: [
+        { value: 'nfb', label: 'NetFront Browser' },
+        { value: 'nfnx', label: 'NetFront NX' },
+        { value: 'nfbe', label: 'NetFront BE' },
+      ],
+      depa: '',
+      dest: '',
     }
     this.showRestaurants = this.showRestaurants.bind(this)
     this.showLineSuggest = this.showLineSuggest.bind(this)
-    this.setLineName = this.setLineName.bind(this)
+    this.getDepaDest = this.getDepaDest.bind(this)
   }
 
   showRestaurants(){
@@ -101,11 +120,19 @@ class Top extends React.Component {
     })
   }
 
-   setLineName(event){
+   getDepaDest(event){
      this.state.lineName = event.target.value
      // this.setState({
      //   [event.target.name]: event.target.value,
      // })
+     axios
+     .get('https://api.ekispert.jp/v1/json/station/light?key=FdLCvRWyDjsURYbT')
+     .then((results) => {
+       console.log(results)
+     })
+     .catch((error) => {
+       console.log(error)
+     })
      console.log(this.state)
    }
 
@@ -141,7 +168,7 @@ class Top extends React.Component {
                     InputProps={getInputProps({
                       placeholder: 'Search a country (start with a)',
                       onChange: this.showLineSuggest,
-                      onBlur: this.setLineName,
+                      onBlur: this.getDepaDest,
                     })}
                     name="lineName"
                     value={this.state.lineName}
@@ -177,10 +204,10 @@ class Top extends React.Component {
                                 key: this.state.railSuggestions.Name,
                                 item: this.state.railSuggestions,
                               })}
-                              selected={highlightedIndex === index}
+                              selected={selectedItem === this.state.railSuggestions}
                               component="div"
                               style={{
-                                fontWeight: selectedItem === suggestions ? 500 : 400,
+                                fontWeight: selectedItem === this.state.railSuggestions ? 500 : 400,
                               }}
                             >
                               {this.state.railSuggestions.Name}
@@ -191,6 +218,16 @@ class Top extends React.Component {
               </div>
             )}
           </Downshift>
+          <Select
+            value={this.state.depa}
+            options={this.state.depaSuggestions}
+            placeholder=""
+          />
+          <Select
+            value={this.state.dest}
+            options={this.state.destSuggestions}
+            placeholder=""
+          />
           <TextField
             id="id"
             className={classes.textField}
