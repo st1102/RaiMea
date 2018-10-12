@@ -10,3 +10,12 @@ services:
     volumes:
       - ./react/app:/home/app
     tty: true
+  train_api:
+    build:
+      context: ./node
+    container_name: train_api_container
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./node/train_api:/home/train_api
+    tty: true
