@@ -120,21 +120,21 @@ class Top extends React.Component {
     })
   }
 
-   getDepaDest(event){
-     this.state.lineName = event.target.value
-     // this.setState({
-     //   [event.target.name]: event.target.value,
-     // })
-     axios
-     .get('https://api.ekispert.jp/v1/json/station/light?key=FdLCvRWyDjsURYbT')
-     .then((results) => {
-       console.log(results)
-     })
-     .catch((error) => {
-       console.log(error)
-     })
-     console.log(this.state)
-   }
+  getDepaDest(event){
+    this.state.lineName = event.target.value
+    // this.setState({
+    //   [event.target.name]: event.target.value,
+    // })
+    axios
+    .get('http://0.0.0.0:3000/train?line=' + this.state.lineName)
+    .then((results) => {
+     console.log(results)
+    })
+    .catch((error) => {
+     console.log(error)
+    })
+    console.log(this.state)
+  }
 
   render() {
     const { classes } = this.props;
