@@ -56,11 +56,11 @@ const inputProps = {
 //   {Name: 'ccc'},
 // ]
 
-// const items = [
-//       { value: 'nfb', label: 'NetFront Browser' },
-//       { value: 'nfnx', label: 'NetFront NX' },
-//       { value: 'nfbe', label: 'NetFront BE' },
-//       ];
+const items = [
+      { value: 'nfb', label: 'NetFront Browser' },
+      { value: 'nfnx', label: 'NetFront NX' },
+      { value: 'nfbe', label: 'NetFront BE' },
+      ];
 
 class Top extends React.Component {
   constructor(props) {
@@ -72,28 +72,33 @@ class Top extends React.Component {
         {Name: 'bbb'},
         {Name: 'ccc'},
       ],
-      depaSuggestions: [
-        { value: 'nfb', label: 'NetFront Browser' },
-        { value: 'nfnx', label: 'NetFront NX' },
-        { value: 'nfbe', label: 'NetFront BE' },
-      ],
-      destSuggestions: [
-        { value: 'nfb', label: 'NetFront Browser' },
-        { value: 'nfnx', label: 'NetFront NX' },
-        { value: 'nfbe', label: 'NetFront BE' },
-      ],
+      // depaSuggestions: [
+      //   { value: 'nfb', label: 'NetFront Browser' },
+      //   { value: 'nfnx', label: 'NetFront NX' },
+      //   { value: 'nfbe', label: 'NetFront BE' },
+      // ],
+      // destSuggestions: [
+      //   { value: 'nfb', label: 'NetFront Browser' },
+      //   { value: 'nfnx', label: 'NetFront NX' },
+      //   { value: 'nfbe', label: 'NetFront BE' },
+      // ],
+      stationInfo: [],
+      stations: [],
       depa: '',
       dest: '',
     }
     this.showRestaurants = this.showRestaurants.bind(this)
     this.showLineSuggest = this.showLineSuggest.bind(this)
-    this.getDepaDest = this.getDepaDest.bind(this)
+    this.getStations = this.getStations.bind(this)
+    this.setDepa = this.setDepa.bind(this)
+    this.setDest = this.setDest.bind(this)
   }
 
   showRestaurants(){
-    this.props.history.push({
-      pathname: '/restaurants',
-    })
+    // this.props.history.push({
+    //   pathname: '/restaurants',
+    // })
+    console.log(this.state)
   }
 
   showLineSuggest(event){
@@ -102,7 +107,7 @@ class Top extends React.Component {
     .get('https://api.ekispert.jp/v1/json/operationLine?key=' + stationKey + '&name=ＪＲ' + event.target.value
     )
     .then((results) => {
-      console.log(results)
+      // console.log(results)
       if(results.data.ResultSet.Line){
         // items = results.data.ResultSet.Line
         this.setState({
@@ -110,7 +115,7 @@ class Top extends React.Component {
         })
       } else {
       }
-      console.log(this.state)
+      // console.log(this.state)
     })
     .catch((error) => {
       console.log(error)
@@ -120,7 +125,7 @@ class Top extends React.Component {
     })
   }
 
-  getDepaDest(event){
+  getStations(event){
     this.state.lineName = event.target.value
     // this.setState({
     //   [event.target.name]: event.target.value,
@@ -128,10 +133,46 @@ class Top extends React.Component {
     axios
     .get('http://0.0.0.0:3000/train?line=' + this.state.lineName)
     .then((results) => {
-     console.log(results)
+      // console.log(results.data.replace("if(typeof(xml)=='undefined') xml = {};", "").replace('xml.data = {"line_cd":11332,"line_name":"JR京浜東北線","line_lon":139.6425120970631,"line_lat":35.63929555924292,"line_zoom":10,"station_l":[', '').replace("]}", "").replace("if(typeof(xml.onload)=='function') xml.onload(xml.data);", ""))
+      // console.log(results.data.split('"station_name":"'))
+      let sInfo = []
+      let sName = []
+      let i = 0
+      for (let station of results.data.split('"station_name":"')) {
+        if (i != 0) {
+          // console.log(station)
+          let splitStation = station.split('"')
+          // console.log(splitStation)
+          sInfo.push({ name: splitStation[0], lon: splitStation[3].replace(':', '').replace(',', ''), lat: splitStation[5].replace(':', '').replace('},{', '') })
+          sName.push({value: splitStation[0], label: splitStation[0]})
+        }
+        i += 1
+      }
+      // console.log(sInfo)
+      this.setState({
+        stationInfo: sInfo,
+        stations: sName
+      })
+      // console.log(this.state)
     })
     .catch((error) => {
      console.log(error)
+    })
+    // console.log(this.state)
+  }
+
+  setDepa(value) {
+    this.setState({
+      depa: value,
+      // depa: 'aaa',
+    })
+    console.log(this.state)
+  }
+
+  setDest(value) {
+    this.setState({
+      dest: value,
+      // dest: 'aaa',
     })
     console.log(this.state)
   }
@@ -168,7 +209,7 @@ class Top extends React.Component {
                     InputProps={getInputProps({
                       placeholder: 'Search a country (start with a)',
                       onChange: this.showLineSuggest,
-                      onBlur: this.getDepaDest,
+                      onBlur: this.getStations,
                     })}
                     name="lineName"
                     value={this.state.lineName}
@@ -219,14 +260,18 @@ class Top extends React.Component {
             )}
           </Downshift>
           <Select
+            className={classes.textField}
             value={this.state.depa}
-            options={this.state.depaSuggestions}
+            options={this.state.stations}
             placeholder=""
+            onChange={this.setDepa}
           />
           <Select
+            className={classes.textField}
             value={this.state.dest}
-            options={this.state.destSuggestions}
+            options={this.state.stations}
             placeholder=""
+            onChange={this.setDest}
           />
           <TextField
             id="id"
