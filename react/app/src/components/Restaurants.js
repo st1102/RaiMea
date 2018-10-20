@@ -21,15 +21,27 @@ const styles = {
   },
 };
 
-const Restaurants = (props) => {
-  const { classes } = props;
-  return (
-    <div className={classes.div}>
-      <div className={classes.innerDiv}>
-        Restaurants
+class Restaurants extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+
+    }
+  }
+
+  render() {
+    const { classes } = this.props
+    const routeStationInfo = this.props.location.state.routeStationsInfo
+    console.log(routeStationInfo)
+
+    return (
+      <div className={classes.div}>
+        <div className={classes.innerDiv}>
+          Restaurants
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 Restaurants.propTypes = {

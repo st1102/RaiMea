@@ -95,10 +95,15 @@ class Top extends React.Component {
   }
 
   showRestaurants(){
-    // this.props.history.push({
-    //   pathname: '/restaurants',
-    // })
-    console.log(this.state)
+    let routeStationsInfo = this.state.stationInfo.filter((item, index) => {
+      return (index >= this.state.stations.indexOf(this.state.depa) && index <= this.state.stations.indexOf(this.state.dest))
+    })
+    this.props.history.push({
+      pathname: '/restaurants',
+      state: {
+        routeStationsInfo: routeStationsInfo,
+      },
+    })
   }
 
   showLineSuggest(event){
@@ -164,17 +169,13 @@ class Top extends React.Component {
   setDepa(value) {
     this.setState({
       depa: value,
-      // depa: 'aaa',
     })
-    console.log(this.state)
   }
 
   setDest(value) {
     this.setState({
       dest: value,
-      // dest: 'aaa',
     })
-    console.log(this.state)
   }
 
   render() {
