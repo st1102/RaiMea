@@ -56,11 +56,11 @@ const inputProps = {
 //   {Name: 'ccc'},
 // ]
 
-const items = [
-      { value: 'nfb', label: 'NetFront Browser' },
-      { value: 'nfnx', label: 'NetFront NX' },
-      { value: 'nfbe', label: 'NetFront BE' },
-      ];
+// const items = [
+//       { value: 'nfb', label: 'NetFront Browser' },
+//       { value: 'nfnx', label: 'NetFront NX' },
+//       { value: 'nfbe', label: 'NetFront BE' },
+//       ];
 
 class Top extends React.Component {
   constructor(props) {

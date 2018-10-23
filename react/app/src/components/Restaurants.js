@@ -3,22 +3,18 @@ import React from 'react'
 // import styles from '../assets/restaurants.css'
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import RestList from './RestList';
 
 const styles = {
   div: {
-    position: 'absolute',
-    top: 0,
-    height: 'calc(100% - 10px - 10px)',
-    width: '100%',
+    height: 'calc(100% - 64px - 40px)', // ヘッダーとpadding分マイナス
+    width: 'calc(100% - 20px)',
     padding: '10px',
-    // backgroundImage: 'url(../src/assets/image/top_background.jpg)',
-    // backgroundSize: 'cover',
-    // zIndex: -1,
     overflow: 'hidden',
   },
-  innerDiv: {
-    marginTop: 'calc(64px + 10px)',
-  },
+  // innerDiv: {
+  //   marginTop: 'calc(64px + 10px)',
+  // },
 };
 
 class Restaurants extends React.Component {
@@ -29,15 +25,19 @@ class Restaurants extends React.Component {
     }
   }
 
+  componentDidMount() {
+
+  }
+
   render() {
     const { classes } = this.props
-    const routeStationInfo = this.props.location.state.routeStationsInfo
-    console.log(routeStationInfo)
 
     return (
       <div className={classes.div}>
         <div className={classes.innerDiv}>
-          Restaurants
+          {this.props.location.state.routeStationsInfo.map((stationInfo) => (
+            <RestList key={stationInfo.name} stationInfo={ stationInfo }></RestList>
+          ))}
         </div>
       </div>
     )
