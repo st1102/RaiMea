@@ -24,8 +24,7 @@ class RestList extends React.Component {
 
   getRestInfo(){
     axios
-    .get('https://map.yahooapis.jp/search/local/V1/localSearch?appid=' + localSearchKey + '&output=json&lat=' + this.props.stationInfo.lat + '&lon=' + this.props.stationInfo.lon + '&dist=3'
-    )
+    .get('http://0.0.0.0:3000/train/restaurants?lat=' + this.props.stationInfo.lat + '&lon=' + this.props.stationInfo.lon)
     .then((results) => {
       console.log(results)
       this.setState({
