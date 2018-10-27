@@ -12,9 +12,9 @@ const styles = {
     padding: '10px',
     overflow: 'hidden',
   },
-  // innerDiv: {
-  //   marginTop: 'calc(64px + 10px)',
-  // },
+  innerDiv: {
+    // overflow: 'scroll',
+  },
 };
 
 class Restaurants extends React.Component {
@@ -36,7 +36,7 @@ class Restaurants extends React.Component {
       <div className={classes.div}>
         <div className={classes.innerDiv}>
           {this.props.location.state.routeStationsInfo.map((stationInfo) => (
-            <RestList key={stationInfo.name} stationInfo={ stationInfo }></RestList>
+            <RestList key={stationInfo.name} stationInfo={stationInfo}></RestList>
           ))}
         </div>
       </div>

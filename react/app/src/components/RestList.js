@@ -3,10 +3,12 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import localSearchKey from '../../key.js'
+import RestInfo from './RestInfo';
 
 const styles = {
   route: {
     background: 'white',
+    // overflow: 'scroll',
   },
 };
 
@@ -19,16 +21,16 @@ class RestList extends React.Component {
   }
 
   componentDidMount() {
-    this.getRestInfo()
+    this.getRestList()
   }
 
-  getRestInfo(){
+  getRestList(){
     axios
     .get('http://0.0.0.0:3000/train/restaurants?lat=' + this.props.stationInfo.lat + '&lon=' + this.props.stationInfo.lon)
     .then((results) => {
       console.log(results)
       this.setState({
-        restInfoList: results,
+        restInfoList: results.data.response.venues,
       })
       console.log(this.state)
     })
@@ -43,6 +45,9 @@ class RestList extends React.Component {
     return (
       <div className={classes.route}>
         {this.props.stationInfo.name}
+        {this.state.restInfoList.map((restInfo) => (
+          <RestInfo key={restInfo.id} restInfo={restInfo}></RestInfo>
+        ))}
       </div>
     )
   }
