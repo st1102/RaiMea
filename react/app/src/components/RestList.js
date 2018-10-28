@@ -30,7 +30,7 @@ class RestList extends React.Component {
     .then((results) => {
       console.log(results)
       this.setState({
-        restInfoList: results.data.response.venues,
+        restInfoList: results.data.businesses,
       })
       console.log(this.state)
     })

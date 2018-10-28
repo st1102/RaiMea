@@ -4,14 +4,18 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 const styles = {
-
+  img: {
+    width: '160px',
+    height: '100px',
+  }
 };
 
 class RestInfo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      restPhotoList: [],
+      restDetail: '',
+      restPhotos: [],
     }
   }
 
@@ -21,11 +25,12 @@ class RestInfo extends React.Component {
 
   getRestPhoto(){
     axios
-    .get('http://0.0.0.0:3000/train/photo?VENUE_ID=' + this.props.restInfo.id)
+    .get('http://0.0.0.0:3000/train/detail?id=' + this.props.restInfo.id)
     .then((results) => {
       console.log(results)
       this.setState({
-        restPhotoList: results.data.response.photos.items,
+        restDetail: results.data,
+        restPhotos: results.data.photos,
       })
       console.log(this.state)
     })
@@ -40,8 +45,8 @@ class RestInfo extends React.Component {
     return (
       <div>
         {this.props.restInfo.name}
-        {this.state.restPhotoList.map((photoInfo) => (
-          <img src={photoInfo.prefix+'300x500'+photoInfo.suffix}/>
+        {this.state.restPhotos.map((restPhoto) => (
+          <img className={classes.img} key={restPhoto} src={restPhoto}/>
         ))}
       </div>
     )
