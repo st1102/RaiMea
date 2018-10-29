@@ -5,31 +5,43 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 const styles = {
-  div: {
-    position: 'absolute',
-    top: 0,
-    height: 'calc(100% - 10px - 10px)',
-    width: '100%',
-    padding: '10px',
-    // backgroundImage: 'url(../src/assets/image/top_background.jpg)',
-    // backgroundSize: 'cover',
-    // zIndex: -1,
-    overflow: 'hidden',
-  },
-  innerDiv: {
-    marginTop: 'calc(64px + 10px)',
-  },
+
 };
 
-const Restaurant = (props) => {
-  const { classes } = props;
-  return (
-    <div className={classes.div}>
-      <div className={classes.innerDiv}>
-        Restaurant
+class Restaurant extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+    }
+  }
+
+  componentDidMount() {
+    console.log(this.props.location.state)
+  }
+
+  render(){
+    const { classes } = this.props;
+
+    return (
+      <div className={classes.div}>
+        <div className={classes.name}>
+          {this.props.location.state.restInfo.name}
+        </div>
+        <div className={classes.eval}>
+          <span className={classes.rating}>星：{this.props.location.state.restDetail.rating}</span>
+          <span className={classes.reviewCount}>レビュー数：{this.props.location.state.restDetail.review_count}件</span>
+        </div>
+        <div className={classes.phone}>
+          {this.props.location.state.restInfo.display_phone}
+        </div>
+        <div className={classes.address}>
+          {this.props.location.state.restInfo.location.display_address[0] + this.props.location.state.restInfo.location.display_address[0]}
+        </div>
+        <a className={classes.yelpUrl} href={this.props.location.state.restDetail.url} target='_blank'>Yelpページへ</a>
+        <a className={classes.googleUrl} href={'http://www.google.co.jp/search?q=' + this.props.location.state.restInfo.name} target='_blank'>{this.props.location.state.restInfo.name}についてもっと調べる</a>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 Restaurant.propTypes = {

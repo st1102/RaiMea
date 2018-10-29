@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -44,7 +45,13 @@ class RestInfo extends React.Component {
 
     return (
       <div>
-        {this.props.restInfo.name}
+        <Link to={{
+            pathname: '/restaurant',
+            state: {
+              restInfo: this.props.restInfo,
+              restDetail: this.state.restDetail,
+            },
+          }} >{this.props.restInfo.name}</Link>
         {this.state.restPhotos.map((restPhoto) => (
           <img className={classes.img} key={restPhoto} src={restPhoto}/>
         ))}
