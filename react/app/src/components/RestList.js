@@ -46,7 +46,7 @@ class RestList extends React.Component {
       <div className={classes.route}>
         {this.props.stationInfo.name}
         {this.state.restInfoList.map((restInfo) => (
-          <RestInfo key={restInfo.id} restInfo={restInfo}></RestInfo>
+          <RestInfo key={restInfo.id} restInfo={restInfo} stationName={this.props.stationInfo.name}></RestInfo>
         ))}
       </div>
     )

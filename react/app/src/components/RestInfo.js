@@ -32,6 +32,7 @@ class RestInfo extends React.Component {
       this.setState({
         restDetail: results.data,
         restPhotos: results.data.photos,
+        restHours: results.data.hours[0].is_open_now,
       })
       console.log(this.state)
     })
@@ -50,11 +51,16 @@ class RestInfo extends React.Component {
             state: {
               restInfo: this.props.restInfo,
               restDetail: this.state.restDetail,
+              stationName: this.props.stationName,
             },
           }} >{this.props.restInfo.name}</Link>
-        {this.state.restPhotos.map((restPhoto) => (
-          <img className={classes.img} key={restPhoto} src={restPhoto}/>
-        ))}
+        <div>{this.props.stationName}駅から徒歩{Math.round(this.props.restInfo.distance/80)}分</div>
+        <div>現在{this.state.restHours ? <span>営業中</span> : <span>閉店中</span>}</div>
+        <div>
+          {this.state.restPhotos.map((restPhoto) => (
+            <img className={classes.img} key={restPhoto} src={restPhoto}/>
+          ))}
+        </div>
       </div>
     )
   }
