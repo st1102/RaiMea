@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 // import { BrowserRouter, Route, Link } from 'react-router-dom'
 // import styles from '../assets/restaurant.css'
 import { withStyles } from '@material-ui/core/styles';
@@ -8,6 +9,10 @@ const styles = {
   img: {
     width: '160px',
     height: '100px',
+  },
+  map: {
+    width: '400px',
+    height: '250px',
   },
 };
 
@@ -20,6 +25,16 @@ class Restaurant extends React.Component {
 
   componentDidMount() {
     console.log(this.props.location.state)
+
+    const centerLatLng = {lat: this.props.location.state.restInfo.coordinates.latitude, lng: this.props.location.state.restInfo.coordinates.longitude}
+    const map = new google.maps.Map(ReactDOM.findDOMNode(this.refs["map"]), {
+      center: centerLatLng,
+      zoom: 15,
+    })
+    const restMarker = new google.maps.Marker({
+      position: centerLatLng,
+      map: map,
+    })
   }
 
   render(){
@@ -50,6 +65,7 @@ class Restaurant extends React.Component {
         </div>
         <a className={classes.yelpUrl} href={this.props.location.state.restDetail.url} target='_blank'>Yelpページへ</a>
         <a className={classes.googleUrl} href={'http://www.google.co.jp/search?q=' + this.props.location.state.restInfo.name} target='_blank'>{this.props.location.state.restInfo.name}についてもっと調べる</a>
+        <div ref="map" id="map" className={classes.map}/>
       </div>
     )
   }
