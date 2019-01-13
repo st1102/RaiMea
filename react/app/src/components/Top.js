@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import Select from 'react-select';
-import { TextField, Button, Paper, MenuItem } from '@material-ui/core';
+import { TextField, Button, Paper, MenuItem, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import stationKey from '../../key.js'
@@ -19,6 +19,7 @@ const styles = {
   },
   pageDesc: {
     display: 'flex',
+    height: '30%',
     color: 'white',
     justifyContent: 'center',
     alignItems: 'center',
@@ -27,7 +28,7 @@ const styles = {
     display: 'flex',
     width: '60%',
     height: '30%',
-    margin: '17% 19% 17% 19%',
+    margin: '0 19% 0 19%',
     padding: '1%',
     background: '#FFE0B2FC',
     flexWrap: 'wrap',
@@ -35,14 +36,42 @@ const styles = {
   },
   tFieldDesc: {
     display: 'flex',
-    flexBasis: '80%',
+    flexBasis: '100%',
     margin: '0 10% 0 10%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textField: {
-    flexBasis: '30%',
-    margin: '0 10% 0 10%',
+  railField: {
+    display: 'flex',
+    flexBasis: '40%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '0 2% 0 2%',
+  },
+  railDownshift: {
+    background: '#fff',
+    borderRadius: '4px',
+  },
+  depaDest: {
+    display: 'flex',
+    flexBasis: '40%',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '0 2% 0 2%',
+  },
+  depa: {
+    width: '80%',
+    margin: '5% 5% 5% 5%',
+  },
+  dest: {
+    width: '80%',
+    margin: '5% 5% 5% 5%',
+  },
+  submitButton: {
+    height: '30%',
+    margin: 'auto 0 0 auto',
+    background: '#fff',
   }
 }
 
@@ -182,115 +211,111 @@ class Top extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.div}>
-        <div　className={classes.pageDesc}>
-          電車経路沿線の飲食店を一括検索！！
-        </div>
+        <Typography　className={classes.pageDesc} variant="headline">
+          電車経路沿線のラーメン屋を一括検索！！
+        </Typography>
         <div className={classes.textFields}>
-          <div className={classes.tFieldDesc}>
-            路線名から出発駅と到着駅を入力し検索！！
-          </div>
-          <Downshift
-            id="rail-downshift"
-            itemToString={item => (item ? item.Name : '')}
-          >
-            {({
-              getInputProps,
-              getItemProps,
-              getMenuProps,
-              highlightedIndex,
-              inputValue,
-              isOpen,
-              selectedItem,
-            }) => (
-              <div>
-                  <TextField
-                    id="id"
-                    variant="outlined"
-                    label="路線"
-                    InputProps={getInputProps({
-                      placeholder: 'Search a country (start with a)',
-                      onChange: this.showLineSuggest,
-                      onBlur: this.getStations,
-                    })}
-                    name="lineName"
-                    value={this.state.lineName}
-                  />
-                <div {...getMenuProps()}>
-                  {isOpen && inputValue.length !== 0　? (
-                      (this.state.railSuggestions.length > 1) ? (
-                        <Paper square>
-                          {this.state.railSuggestions
-                          .filter(suggestion => !inputValue || suggestion.Name.includes(inputValue))
-                          .map((suggestion, index) => (
-                            <MenuItem
-                              {...getItemProps({
-                                key: suggestion.Name,
-                                index,
-                                item: suggestion,
-                              })}
-                              selected={highlightedIndex === index}
-                              component="div"
-                              style={{
-                                fontWeight: selectedItem === suggestion ? 500 : 400,
-                              }}
-                            >
-                              {suggestion.Name}
-                            </MenuItem>
-                          ))}
-                        </Paper>)
-                      : (
-                        <Paper square>
-                          {(this.state.railSuggestions === !inputValue || this.state.railSuggestions.Name.includes(inputValue)) ?
-                            (<MenuItem
-                              {...getItemProps({
-                                key: this.state.railSuggestions.Name,
-                                item: this.state.railSuggestions,
-                              })}
-                              selected={selectedItem === this.state.railSuggestions}
-                              component="div"
-                              style={{
-                                fontWeight: selectedItem === this.state.railSuggestions ? 500 : 400,
-                              }}
-                            >
-                              {this.state.railSuggestions.Name}
-                            </MenuItem>) : null}
-                        </Paper>)
-                  ) : null}
+          <Typography className={classes.tFieldDesc} variant="sunheading">
+            路線名から出発駅と到着駅を選択し検索！！
+          </Typography>
+          <div className={classes.railField}>
+            <Downshift
+              id="rail-downshift"
+              itemToString={item => (item ? item.Name : '')}
+            >
+              {({
+                getInputProps,
+                getItemProps,
+                getMenuProps,
+                highlightedIndex,
+                inputValue,
+                isOpen,
+                selectedItem,
+              }) => (
+                <div>
+                    <TextField
+                      id="id"
+                      className={classes.railDownshift}
+                      variant="outlined"
+                      label="路線"
+                      InputProps={getInputProps({
+                        placeholder: 'Search a country (start with a)',
+                        onChange: this.showLineSuggest,
+                        onBlur: this.getStations,
+                      })}
+                      name="lineName"
+                      value={this.state.lineName}
+                    />
+                  <div {...getMenuProps()}>
+                    {isOpen && inputValue.length !== 0　? (
+                        (this.state.railSuggestions.length > 1) ? (
+                          <Paper square>
+                            {this.state.railSuggestions
+                            .filter(suggestion => !inputValue || suggestion.Name.includes(inputValue))
+                            .map((suggestion, index) => (
+                              <MenuItem
+                                {...getItemProps({
+                                  key: suggestion.Name,
+                                  index,
+                                  item: suggestion,
+                                })}
+                                selected={highlightedIndex === index}
+                                component="div"
+                                style={{
+                                  fontWeight: selectedItem === suggestion ? 500 : 400,
+                                }}
+                              >
+                                {suggestion.Name}
+                              </MenuItem>
+                            ))}
+                          </Paper>)
+                        : (
+                          <Paper square>
+                            {(this.state.railSuggestions === !inputValue || this.state.railSuggestions.Name.includes(inputValue)) ?
+                              (<MenuItem
+                                {...getItemProps({
+                                  key: this.state.railSuggestions.Name,
+                                  item: this.state.railSuggestions,
+                                })}
+                                selected={selectedItem === this.state.railSuggestions}
+                                component="div"
+                                style={{
+                                  fontWeight: selectedItem === this.state.railSuggestions ? 500 : 400,
+                                }}
+                              >
+                                {this.state.railSuggestions.Name}
+                              </MenuItem>) : null}
+                          </Paper>)
+                    ) : null}
+                  </div>
                 </div>
-              </div>
-            )}
-          </Downshift>
-          <Select
-            className={classes.textField}
-            value={this.state.depa}
-            options={this.state.stations}
-            placeholder=""
-            onChange={this.setDepa}
-          />
-          <Select
-            className={classes.textField}
-            value={this.state.dest}
-            options={this.state.stations}
-            placeholder=""
-            onChange={this.setDest}
-          />
-          <TextField
-            id="id"
-            className={classes.textField}
+              )}
+            </Downshift>
+          </div>
+          <div className={classes.depaDest}>
+            <Select
+              className={classes.depa}
+              value={this.state.depa}
+              options={this.state.stations}
+              placeholder="出発駅"
+              onChange={this.setDepa}
+            />
+            <Select
+              className={classes.dest}
+              value={this.state.dest}
+              options={this.state.stations}
+              placeholder="到着駅"
+              onChange={this.setDest}
+            />
+          </div>
+          <Button
+            className={classes.submitButton}
+            size="medium"
             variant="outlined"
-            label="出発駅"
-            InputProps={inputProps}
-          />
-          <TextField
-            id="id"
-            className={classes.textField}
-            variant="outlined"
-            label="到着駅"
-            InputProps={inputProps}
-          />
-        <Button variant="outlined" color="secondary" onClick={this.showRestaurants}>
-          検索
-        </Button>
+            color="default"
+            onClick={this.showRestaurants}>
+            検索
+          </Button>
         </div>
       </div>
     )
