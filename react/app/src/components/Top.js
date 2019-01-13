@@ -30,9 +30,9 @@ const styles = {
     height: '30%',
     margin: '0 19% 0 19%',
     padding: '1%',
-    background: '#FFE0B2FC',
+    background: '#F57F17cc',
     flexWrap: 'wrap',
-    borderRadius: '10px',
+    borderRadius: '4px',
   },
   tFieldDesc: {
     display: 'flex',
@@ -40,6 +40,7 @@ const styles = {
     margin: '0 10% 0 10%',
     justifyContent: 'center',
     alignItems: 'center',
+    color: 'white',
   },
   railField: {
     display: 'flex',

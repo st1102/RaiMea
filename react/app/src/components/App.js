@@ -26,20 +26,15 @@ const styles = {
   appBar: {
     width: 'calc(100% - 20px)',
     margin: '10px',
+    background: '#fffc',
   },
   grow: {
     flexGrow: 1,
-  },
-  routerList: {
-    display: 'flex',
   },
   titleLink: {
     textDecoration: 'none',
   },
   titleTypo: {
-    color: 'black',
-  },
-  icons: {
 
   },
 };
@@ -49,26 +44,25 @@ const App = (props) => {
   return (
     <BrowserRouter>
       <div className={classes.div}>
-        <AppBar position='static' color='default' className={classes.appBar}>
+        <AppBar position='static' className={classes.appBar}>
           <Toolbar>
-            <div className={classes.grow} />
             <Link to='/' className={classes.titleLink}>
-              <Typography align='center' variant='title' color='inherit' className={classes.titleTypo}>
-                (ロゴ)RaiMea
+              <Typography
+                align='left'
+                variant='title'
+                color='black'
+                className={classes.titleTypo}>
+                (ロゴ)ラーメン路線図
               </Typography>
             </Link>
             <div className={classes.grow} />
-            <div className={classes.icons}>
-              <IconButton>
-                <Link to='/routes'><BookmarkIcon /></Link>
-              </IconButton>
-              <IconButton>
-                <Link to='/restaurants'><BookmarkIcon /></Link>
-              </IconButton>
-              <IconButton>
-                <Link to='/restaurant'><BookmarkIcon /></Link>
-              </IconButton>
-            </div>
+              <Typography
+                align='right'
+                variant='subheading'
+                color='black'
+                className={classes.titleTypo}>
+                このサイトについて
+              </Typography>
           </Toolbar>
         </AppBar>
 
