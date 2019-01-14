@@ -43,6 +43,7 @@ const styles = {
     color: 'white',
   },
   railField: {
+    position: 'relative',
     display: 'flex',
     flexBasis: '40%',
     justifyContent: 'center',
@@ -52,6 +53,12 @@ const styles = {
   railDownshift: {
     background: '#fff',
     borderRadius: '4px',
+  },
+  railPaper: {
+    position: 'absolute',
+    width: '76%',
+    marginTop: '4px',
+    zIndex: 1,
   },
   depaDest: {
     display: 'flex',
@@ -250,7 +257,10 @@ class Top extends React.Component {
                   <div {...getMenuProps()}>
                     {isOpen && inputValue.length !== 0　? (
                         (this.state.railSuggestions.length > 1) ? (
-                          <Paper square>
+                          <Paper
+                            square
+                            className={classes.railPaper}
+                          >
                             {this.state.railSuggestions
                             .filter(suggestion => !inputValue || suggestion.Name.includes(inputValue))
                             .map((suggestion, index) => (
