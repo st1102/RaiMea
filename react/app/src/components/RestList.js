@@ -7,8 +7,8 @@ import RestInfo from './RestInfo';
 
 const styles = {
   route: {
-    background: 'white',
-    // overflow: 'scroll',
+    // background: 'white',
+    overflow: 'scroll',
   },
 };
 

@@ -19,6 +19,7 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 
 const styles = {
   div: {
+    position: 'absolute',
     height: '100%',
     width: '100%',
     overflow: 'hidden',
@@ -26,7 +27,7 @@ const styles = {
   appBar: {
     width: 'calc(100% - 20px)',
     margin: '10px',
-    background: '#fffc',
+    background: '#fffd',
   },
   grow: {
     flexGrow: 1,

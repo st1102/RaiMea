@@ -1,19 +1,17 @@
 import React from 'react'
-// import { BrowserRouter, Route, Link } from 'react-router-dom'
-// import styles from '../assets/restaurants.css'
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import RestList from './RestList';
 
 const styles = {
   div: {
-    height: 'calc(100% - 64px - 40px)', // ヘッダーとpadding分マイナス
-    width: 'calc(100% - 20px)',
-    padding: '10px',
-    overflow: 'hidden',
+    height: 'calc(100% - 64px - 20px)', // appbar+margin分マイナス
+    width: '80%',
+    margin: '0 10% 0 10%',
+    overflow: 'scroll',
   },
   innerDiv: {
-    // overflow: 'scroll',
+    // height: '100%',
   },
 };
 
