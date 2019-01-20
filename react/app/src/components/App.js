@@ -51,7 +51,6 @@ const App = (props) => {
               <Typography
                 align='left'
                 variant='title'
-                color='black'
                 className={classes.titleTypo}>
                 (ロゴ)ラーメン路線図
               </Typography>
@@ -60,7 +59,6 @@ const App = (props) => {
               <Typography
                 align='right'
                 variant='subheading'
-                color='black'
                 className={classes.titleTypo}>
                 このサイトについて
               </Typography>

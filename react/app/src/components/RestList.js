@@ -1,5 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles';
+import { Tabs, Tab } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import localSearchKey from '../../key.js'
@@ -28,11 +29,12 @@ class RestList extends React.Component {
     axios
     .get('http://0.0.0.0:3000/train/restaurants?lat=' + this.props.stationInfo.lat + '&lon=' + this.props.stationInfo.lon)
     .then((results) => {
-      console.log(results)
+      // console.log(results)
+      console.log(this.props.stationInfo)
       this.setState({
         restInfoList: results.data.businesses,
       })
-      console.log(this.state)
+      // console.log(this.state)
     })
     .catch((error) => {
       console.log(error)
@@ -44,7 +46,6 @@ class RestList extends React.Component {
 
     return (
       <div className={classes.route}>
-        {this.props.stationInfo.name}
         {this.state.restInfoList.map((restInfo) => (
           <RestInfo key={restInfo.id} restInfo={restInfo} stationName={this.props.stationInfo.name}></RestInfo>
         ))}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles';
+import { Tabs, Tab } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import RestList from './RestList';
 
@@ -13,14 +14,25 @@ const styles = {
   innerDiv: {
     // height: '100%',
   },
+  tabs: {
+    background: 'white',
+  },
+  tab: {
+  },
 };
 
 class Restaurants extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
+      value: 0,
     }
+
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event, value) {
+    this.setState({ value })
   }
 
   componentDidMount() {
@@ -29,12 +41,28 @@ class Restaurants extends React.Component {
 
   render() {
     const { classes } = this.props
+    const { value } = this.state
 
     return (
       <div className={classes.div}>
         <div className={classes.innerDiv}>
+          <Tabs
+            className={classes.tabs}
+            value={value}
+            onChange={this.handleChange}
+            indicatorColor="secondary"
+            textColor="secondary"
+            scrollable
+            scrollButtons="auto"
+          >
+            {this.props.location.state.routeStationsInfo.map((stationInfo) => (
+              <Tab key={stationInfo.name} label={stationInfo.name} className={classes.tab}/>
+            ))}
+          </Tabs>
           {this.props.location.state.routeStationsInfo.map((stationInfo) => (
-            <RestList key={stationInfo.name} stationInfo={stationInfo}></RestList>
+            <div key={stationInfo.name}>
+              {value === this.props.location.state.routeStationsInfo.indexOf(stationInfo) && <RestList key={stationInfo.name} stationInfo={stationInfo}></RestList>}
+            </div>
           ))}
         </div>
       </div>

@@ -55,13 +55,13 @@ class RestInfo extends React.Component {
     axios
     .get('http://0.0.0.0:3000/train/detail?id=' + this.props.restInfo.id)
     .then((results) => {
-      console.log(results)
+      // console.log(results)
       this.setState({
         restDetail: results.data,
         restPhotos: results.data.photos,
         // restHours: results.data.hours[0].is_open_now,
       })
-      console.log(this.state)
+      // console.log(this.state)
     })
     .catch((error) => {
       console.log(error)
