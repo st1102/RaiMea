@@ -17,7 +17,7 @@ const styles = {
     flexDirection: 'column',
   },
   restName: {
-    textDecoration: 'none',
+    // textDecoration: 'none',
   },
   restAccess: {
     display: 'flex',
