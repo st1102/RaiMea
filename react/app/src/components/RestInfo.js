@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
-import {Card, CardContent, CardMedia, Typography} from '@material-ui/core'
+import {Card, CardContent, CardMedia, Typography, GridList, GridListTile } from '@material-ui/core'
 import { Room } from '@material-ui/icons'
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -15,6 +15,7 @@ const styles = {
   detail: {
     display: 'flex',
     flexDirection: 'column',
+    width: '50%',
   },
   restName: {
     // textDecoration: 'none',
@@ -27,15 +28,15 @@ const styles = {
     color: 'red',
   },
   imgList: {
-    display: 'flex',
-    justifyContent: 'center',
-    margin: 'auto 0 auto auto',
+    width: '50%',
   },
-  img: {
-    width: '160px',
-    height: '100px',
-    margin: '0 2px 0 0',
-  },
+  gridList: {
+  }
+  // img: {
+  //   width: '160px',
+  //   height: '100px',
+  //   margin: '0 2px 0 0',
+  // },
 };
 
 class RestInfo extends React.Component {
@@ -97,9 +98,13 @@ class RestInfo extends React.Component {
             </div>
           </div>
           <div className={classes.imgList}>
-            {this.state.restPhotos.map((restPhoto) => (
-              <img className={classes.img} key={restPhoto} src={restPhoto}/>
-            ))}
+            <GridList className={classes.gridList} cellHeight={100} cols={3}>
+              {this.state.restPhotos.map((restPhoto) => (
+                <GridListTile key={restPhoto} className={classes.gridListTile}>
+                  <img src={restPhoto}/>
+                </GridListTile>
+              ))}
+            </GridList>
           </div>
         </Card>
       </div>

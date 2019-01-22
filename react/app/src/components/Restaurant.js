@@ -2,8 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 // import { BrowserRouter, Route, Link } from 'react-router-dom'
 // import styles from '../assets/restaurant.css'
-import { Room, StarRate, RateReview, Phone, Map } from '@material-ui/icons'
-import { Typography } from '@material-ui/core'
+import { withRouter } from 'react-router'
+import { Room, StarRate, RateReview, Phone, Map, ArrowBackIos } from '@material-ui/icons'
+import { Typography, GridList, GridListTile, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
@@ -14,6 +15,15 @@ const styles = theme => ({
     margin: '0 10% 0 10%',
     background: 'white',
     overflow: 'scroll',
+  },
+  backBtn: {
+    position: 'absolute',
+    top: 'calc(64px + 20px)', // appbar+margin分マイナス
+    left: 'calc(5% - 4px)',
+    height: '48px',
+  },
+  backIcon: {
+    marginLeft: '8px',
   },
   flexDiv: {
     display: 'flex',
@@ -82,11 +92,11 @@ const styles = theme => ({
     flexBasis: '50%',
     padding: theme.spacing.unit,
   },
-  img: {
-    width: '80%',
-    height: '30%',
-    margin: '2px 10% 0 10%',
-  },
+  // img: {
+  //   width: '80%',
+  //   height: '30%',
+  //   margin: '2px 10% 0 10%',
+  // },
   map: {
     width: '90%',
     height: '500px',
@@ -99,6 +109,11 @@ class Restaurant extends React.Component {
     super(props)
     this.state = {
     }
+    this.goBack = this.goBack.bind(this)
+  }
+
+  goBack(){
+    this.props.history.goBack()
   }
 
   componentDidMount() {
@@ -120,6 +135,14 @@ class Restaurant extends React.Component {
 
     return (
       <div className={classes.div}>
+        <Button
+          className={classes.backBtn}
+          variant="contained"
+          color="secondary"
+          onClick={this.goBack}
+        >
+          <ArrowBackIos className={classes.backIcon} />
+        </Button>
         <div className={classes.flexDiv}>
           <div className={classes.detailDiv}>
             <Typography variant='display1' className={classes.name}>
@@ -171,9 +194,13 @@ class Restaurant extends React.Component {
             </div>
           </div>
           <div className={classes.imgDiv}>
-            {this.props.location.state.restDetail.photos.map((restPhoto) => (
-              <img className={classes.img} key={restPhoto} src={restPhoto}/>
-            ))}
+            <GridList cellHeight={160}>
+              {this.props.location.state.restDetail.photos.map((restPhoto) => (
+                <GridListTile key={restPhoto}>
+                  <img src={restPhoto}/>
+                </GridListTile>
+              ))}
+            </GridList>
           </div>
         </div>
         <div ref="map" id="map" className={classes.map}/>
@@ -186,4 +213,4 @@ Restaurant.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Restaurant);
+export default withRouter(withStyles(styles)(Restaurant));

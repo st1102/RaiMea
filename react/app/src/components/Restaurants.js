@@ -1,15 +1,26 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles';
-import { Tabs, Tab } from '@material-ui/core';
+import { withRouter } from 'react-router';
+import { Tabs, Tab, Button } from '@material-ui/core';
+import { ArrowBackIos } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import RestList from './RestList';
 
-const styles = {
+const styles = theme => ({
   div: {
     height: 'calc(100% - 64px - 20px)', // appbar+margin分マイナス
     width: '80%',
     margin: '0 10% 0 10%',
     overflow: 'scroll',
+  },
+  backBtn: {
+    position: 'absolute',
+    top: 'calc(64px + 20px)', // appbar+margin分マイナス
+    left: 'calc(5% - 4px)',
+    height: '48px',
+  },
+  backIcon: {
+    marginLeft: '8px',
   },
   innerDiv: {
     // height: '100%',
@@ -19,7 +30,7 @@ const styles = {
   },
   tab: {
   },
-};
+});
 
 class Restaurants extends React.Component {
   constructor(props) {
@@ -27,16 +38,16 @@ class Restaurants extends React.Component {
     this.state = {
       value: 0,
     }
-
     this.handleChange = this.handleChange.bind(this)
+    this.goBack = this.goBack.bind(this)
+  }
+
+  goBack(){
+    this.props.history.goBack()
   }
 
   handleChange(event, value) {
     this.setState({ value })
-  }
-
-  componentDidMount() {
-
   }
 
   render() {
@@ -45,6 +56,14 @@ class Restaurants extends React.Component {
 
     return (
       <div className={classes.div}>
+        <Button
+          className={classes.backBtn}
+          color="secondary"
+          variant="contained"
+          onClick={this.goBack}
+        >
+          <ArrowBackIos className={classes.backIcon} />
+        </Button>
         <div className={classes.innerDiv}>
           <Tabs
             className={classes.tabs}
@@ -72,6 +91,7 @@ class Restaurants extends React.Component {
 
 Restaurants.propTypes = {
   classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Restaurants);
+export default withRouter(withStyles(styles)(Restaurants));

@@ -40,38 +40,46 @@ const styles = {
   },
 };
 
-const App = (props) => {
-  const { classes } = props;
-  return (
-    <BrowserRouter>
-      <div className={classes.div}>
-        <AppBar position='static' className={classes.appBar}>
-          <Toolbar>
-            <Link to='/' className={classes.titleLink}>
-              <Typography
-                align='left'
-                variant='title'
-                className={classes.titleTypo}>
-                (ロゴ)ラーメン路線図
-              </Typography>
-            </Link>
-            <div className={classes.grow} />
-              <Typography
-                align='right'
-                variant='subheading'
-                className={classes.titleTypo}>
-                このサイトについて
-              </Typography>
-          </Toolbar>
-        </AppBar>
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+    }
+  }
 
-        <Route exact path='/' component={Top} />
-        <Route exact path='/routes' component={Routes} />
-        <Route exact path='/restaurants' component={Restaurants} />
-        <Route exact path='/restaurant' component={Restaurant} />
-      </div>
-    </BrowserRouter>
-  )
+  render() {
+    const { classes } = this.props;
+    return (
+      <BrowserRouter>
+        <div className={classes.div}>
+          <AppBar position='static' className={classes.appBar}>
+            <Toolbar>
+              <Link to='/' className={classes.titleLink}>
+                <Typography
+                  align='left'
+                  variant='title'
+                  className={classes.titleTypo}>
+                  (ロゴ)ラーメン路線図
+                </Typography>
+              </Link>
+              <div className={classes.grow} />
+                <Typography
+                  align='right'
+                  variant='subheading'
+                  className={classes.titleTypo}>
+                  このサイトについて
+                </Typography>
+            </Toolbar>
+          </AppBar>
+
+          <Route exact path='/' component={Top} />
+          <Route exact path='/routes' component={Routes} />
+          <Route exact path='/restaurants' component={Restaurants} />
+          <Route exact path='/restaurant' component={Restaurant} />
+        </div>
+      </BrowserRouter>
+    )
+  }
 }
 
 App.propTypes = {
