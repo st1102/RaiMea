@@ -54,11 +54,16 @@ const styles = {
     background: '#fff',
     borderRadius: '4px',
   },
+  railPaperDiv: {
+
+  },
   railPaper: {
     position: 'absolute',
     width: '76%',
+    height: '250px',
     marginTop: '4px',
     zIndex: 1,
+    overflow: 'scroll',
   },
   depaDest: {
     display: 'flex',
@@ -104,11 +109,7 @@ class Top extends React.Component {
     super(props)
     this.state = {
       lineName: '',
-      railSuggestions: [
-        {Name: 'aaa'},
-        {Name: 'bbb'},
-        {Name: 'ccc'},
-      ],
+      railSuggestions: [],
       // depaSuggestions: [
       //   { value: 'nfb', label: 'NetFront Browser' },
       //   { value: 'nfnx', label: 'NetFront NX' },
@@ -146,10 +147,12 @@ class Top extends React.Component {
   showLineSuggest(event){
     // console.log(event.target.name, event.target.value)
     axios
-    .get('https://api.ekispert.jp/v1/json/operationLine?key=' + stationKey + '&name=ＪＲ' + event.target.value
+    .get('https://api.ekispert.jp/v1/json/operationLine?key=' + stationKey
+     + '&name=' + event.target.value + '&nameMatchType=partial'
     )
     .then((results) => {
       // console.log(results)
+      console.log(results.data.ResultSet.Line)
       if(results.data.ResultSet.Line){
         // items = results.data.ResultSet.Line
         this.setState({
@@ -172,23 +175,42 @@ class Top extends React.Component {
     // this.setState({
     //   [event.target.name]: event.target.value,
     // })
+    // console.log(this.state.railSuggestions.length)
+    let railCode
+    if(this.state.railSuggestions.length > 1){
+      let rail = this.state.railSuggestions.filter((item) => {
+        return (item.Name == this.state.lineName)
+      })
+      railCode = rail[0].code
+    } else {
+      railCode = this.state.railSuggestions.code
+    }
     axios
-    .get('http://0.0.0.0:3000/train?line=' + this.state.lineName)
+    .get(
+      // 'http://0.0.0.0:3000/train?line=' + this.state.lineName
+      'https://api.ekispert.jp/v1/json/station?key=' + stationKey + '&operationLineCode=' + railCode
+
+    )
     .then((results) => {
+      console.log(results)
       // console.log(results.data.replace("if(typeof(xml)=='undefined') xml = {};", "").replace('xml.data = {"line_cd":11332,"line_name":"JR京浜東北線","line_lon":139.6425120970631,"line_lat":35.63929555924292,"line_zoom":10,"station_l":[', '').replace("]}", "").replace("if(typeof(xml.onload)=='function') xml.onload(xml.data);", ""))
       // console.log(results.data.split('"station_name":"'))
       let sInfo = []
       let sName = []
-      let i = 0
-      for (let station of results.data.split('"station_name":"')) {
-        if (i != 0) {
-          // console.log(station)
-          let splitStation = station.split('"')
-          // console.log(splitStation)
-          sInfo.push({ name: splitStation[0], lon: splitStation[3].replace(':', '').replace(',', ''), lat: splitStation[5].replace(':', '').replace('},{', '') })
-          sName.push({value: splitStation[0], label: splitStation[0]})
-        }
-        i += 1
+      // let i = 0
+      // for (let station of results.data.split('"station_name":"')) {
+      //   if (i != 0) {
+      //     // console.log(station)
+      //     let splitStation = station.split('"')
+      //     // console.log(splitStation)
+      //     sInfo.push({ name: splitStation[0], lon: splitStation[3].replace(':', '').replace(',', ''), lat: splitStation[5].replace(':', '').replace('},{', '') })
+      //     sName.push({value: splitStation[0], label: splitStation[0]})
+      //   }
+      //   i += 1
+      // }
+      for(let point of results.data.ResultSet.Point){
+        sInfo.push({name: point.Station.Name, lon: point.GeoPoint.longi, lat: point.GeoPoint.lati})
+        sName.push({value: point.Station.Name, label: point.Station.Name})
       }
       // console.log(sInfo)
       this.setState({
@@ -241,22 +263,22 @@ class Top extends React.Component {
                 selectedItem,
               }) => (
                 <div>
-                    <TextField
-                      id="id"
-                      className={classes.railDownshift}
-                      variant="outlined"
-                      label="路線"
-                      InputProps={getInputProps({
-                        placeholder: 'Search a country (start with a)',
-                        onChange: this.showLineSuggest,
-                        onBlur: this.getStations,
-                      })}
-                      name="lineName"
-                      value={this.state.lineName}
-                    />
-                  <div {...getMenuProps()}>
+                  <TextField
+                    id="id"
+                    className={classes.railDownshift}
+                    variant="outlined"
+                    label="路線"
+                    InputProps={getInputProps({
+                      placeholder: '路線名を入力',
+                      onChange: this.showLineSuggest,
+                      onBlur: this.getStations,
+                    })}
+                    name="lineName"
+                    value={this.state.lineName}
+                  />
+                <div {...getMenuProps()} className={classes.railPaperDiv}>
                     {isOpen && inputValue.length !== 0　? (
-                        (this.state.railSuggestions.length > 1) ? (
+                        (this.state.railSuggestions.length > 2) ? (
                           <Paper
                             square
                             className={classes.railPaper}
@@ -281,22 +303,28 @@ class Top extends React.Component {
                             ))}
                           </Paper>)
                         : (
-                          <Paper square>
-                            {(this.state.railSuggestions === !inputValue || this.state.railSuggestions.Name.includes(inputValue)) ?
-                              (<MenuItem
-                                {...getItemProps({
-                                  key: this.state.railSuggestions.Name,
-                                  item: this.state.railSuggestions,
-                                })}
-                                selected={selectedItem === this.state.railSuggestions}
-                                component="div"
-                                style={{
-                                  fontWeight: selectedItem === this.state.railSuggestions ? 500 : 400,
-                                }}
-                              >
-                                {this.state.railSuggestions.Name}
-                              </MenuItem>) : null}
-                          </Paper>)
+                          (this.state.railSuggestions.length == 0) ? (
+                            <Paper square>
+                            </Paper>
+                          ) : (
+                            <Paper square>
+                              {(this.state.railSuggestions === !inputValue || this.state.railSuggestions.Name.includes(inputValue)) ?
+                                (<MenuItem
+                                  {...getItemProps({
+                                    key: this.state.railSuggestions.Name,
+                                    item: this.state.railSuggestions,
+                                  })}
+                                  selected={selectedItem === this.state.railSuggestions}
+                                  component="div"
+                                  style={{
+                                    fontWeight: selectedItem === this.state.railSuggestions ? 500 : 400,
+                                  }}
+                                >
+                                  {this.state.railSuggestions.Name}
+                                </MenuItem>) : null}
+                            </Paper>
+                          )
+                        )
                     ) : null}
                   </div>
                 </div>

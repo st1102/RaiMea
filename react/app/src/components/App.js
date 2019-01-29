@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 // import styles from '../assets/app.css'
 import Top from './Top'
-import Routes from './Routes'
+import Desc from './Desc'
 import Restaurants from './Restaurants'
 import Restaurant from './Restaurant'
 // import createMuiTheme from '@material-ui/core/styles'
@@ -33,10 +33,18 @@ const styles = {
     flexGrow: 1,
   },
   titleLink: {
+    display: 'flex',
     textDecoration: 'none',
   },
-  titleTypo: {
-
+  logo: {
+    height: '60px',
+  },
+  appName: {
+    height: '50px',
+    margin: '5px 0 5px 0',
+  },
+  descLink: {
+    textDecoration: 'none',
   },
 };
 
@@ -55,25 +63,22 @@ class App extends React.Component {
           <AppBar position='static' className={classes.appBar}>
             <Toolbar>
               <Link to='/' className={classes.titleLink}>
-                <Typography
-                  align='left'
-                  variant='title'
-                  className={classes.titleTypo}>
-                  (ロゴ)ラーメン路線図
-                </Typography>
+                <img className={classes.logo} src='./src/assets/image/logo.png'></img>
+                <img className={classes.appName} src='./src/assets/image/app_name.png'></img>
               </Link>
               <div className={classes.grow} />
-                <Typography
-                  align='right'
-                  variant='subheading'
-                  className={classes.titleTypo}>
-                  このサイトについて
-                </Typography>
+                <Link to='/desc' className={classes.descLink}>
+                  <Typography
+                    variant='subheading'
+                    className={classes.titleTypo}>
+                    このサイトについて
+                  </Typography>
+                </Link>
             </Toolbar>
           </AppBar>
 
           <Route exact path='/' component={Top} />
-          <Route exact path='/routes' component={Routes} />
+          <Route exact path='/desc' component={Desc} />
           <Route exact path='/restaurants' component={Restaurants} />
           <Route exact path='/restaurant' component={Restaurant} />
         </div>

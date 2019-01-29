@@ -19,7 +19,7 @@ const styles = theme => ({
   backBtn: {
     position: 'absolute',
     top: 'calc(64px + 20px)', // appbar+margin分マイナス
-    left: 'calc(5% - 4px)',
+    left: '10px',
     height: '48px',
   },
   backIcon: {
