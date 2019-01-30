@@ -5,12 +5,12 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import Select from 'react-select';
-import { TextField, Button, Paper, MenuItem, Typography } from '@material-ui/core';
+import { TextField, Button, Paper, MenuItem, Typography, Hidden, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import stationKey from '../../key.js'
 
-const styles = {
+const styles = theme => ({
   div: {
     height: 'calc(100% - 64px - 40px)', // ヘッダーとpadding分マイナス
     width: 'calc(100% - 20px)',
@@ -19,19 +19,18 @@ const styles = {
   },
   pageDesc: {
     display: 'flex',
-    height: '30%',
     color: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    [theme.breakpoints.up('sm')]: {
+      height: '30%',
+    }
   },
   textFields: {
-    display: 'flex',
-    width: '60%',
-    height: '30%',
-    margin: '0 19% 0 19%',
+    width: '80%',
+    margin: '0 9% 0 9%',
     padding: '1%',
     background: '#F57F17cc',
-    flexWrap: 'wrap',
     borderRadius: '4px',
   },
   tFieldDesc: {
@@ -45,12 +44,11 @@ const styles = {
   railField: {
     position: 'relative',
     display: 'flex',
-    flexBasis: '40%',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: '0 2% 0 2%',
   },
   railDownshift: {
+    width: '100%',
     background: '#fff',
     borderRadius: '4px',
   },
@@ -67,26 +65,39 @@ const styles = {
   },
   depaDest: {
     display: 'flex',
-    flexBasis: '40%',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: '0 2% 0 2%',
   },
   depa: {
-    width: '80%',
-    margin: '5% 5% 5% 5%',
+    width: '70%',
+    margin: '5% 0 5% 0',
+    [theme.breakpoints.down('sm')]: {
+      margin: '0',
+      width: '100%',
+    },
   },
   dest: {
-    width: '80%',
-    margin: '5% 5% 5% 5%',
+    width: '70%',
+    margin: '5% 0 5% 0',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '24dp',
+      width: '100%',
+    },
+  },
+  buttonGrid: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-end',
+    }
   },
   submitButton: {
-    height: '30%',
-    margin: 'auto 0 0 auto',
     background: '#fff',
   }
-}
+})
 
 const inputProps = {
   step: 300,
@@ -250,14 +261,30 @@ class Top extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.div}>
-        <Typography　className={classes.pageDesc} variant="headline">
-          電車経路沿線のラーメン屋を一括検索！！
-        </Typography>
-        <div className={classes.textFields}>
-          <Typography className={classes.tFieldDesc} variant="sunheading">
-            路線名から出発駅と到着駅を選択し検索！！
-          </Typography>
-          <div className={classes.railField}>
+          <Hidden xsDown>
+            <Typography align='center'　className={classes.pageDesc} variant="headline">
+              電車経路沿線のラーメン屋を一括検索！！
+            </Typography>
+          </Hidden>
+          <Hidden smUp>
+            <Typography align='center'　className={classes.pageDesc} variant="body2">
+              電車経路沿線のラーメン屋を一括検索！！
+            </Typography>
+          </Hidden>
+        <Grid container spacing='24' justify="center" className={classes.textFields}>
+          <Grid item xs={12}>
+            <Hidden xsDown>
+              <Typography align='center' className={classes.tFieldDesc} variant="sunheading">
+                路線名から出発駅と到着駅を選択し検索！！
+              </Typography>
+            </Hidden>
+            <Hidden smUp>
+              <Typography align='center'　className={classes.pageDesc} variant="body1">
+                路線名から出発駅と到着駅を選択し検索！！
+              </Typography>
+            </Hidden>
+          </Grid>
+          <Grid item xs={12} sm={5} className={classes.railField}>
             <Downshift
               id="rail-downshift"
               itemToString={item => (item ? item.Name : '')}
@@ -339,8 +366,8 @@ class Top extends React.Component {
                 </div>
               )}
             </Downshift>
-          </div>
-          <div className={classes.depaDest}>
+          </Grid>
+          <Grid item xs={12} sm={5} className={classes.depaDest}>
             <Select
               className={classes.depa}
               value={this.state.depa}
@@ -355,16 +382,18 @@ class Top extends React.Component {
               placeholder="到着駅"
               onChange={this.setDest}
             />
-          </div>
-          <Button
-            className={classes.submitButton}
-            size="medium"
-            variant="outlined"
-            color="default"
-            onClick={this.showRestaurants}>
-            検索
-          </Button>
-        </div>
+          </Grid>
+          <Grid item xs={12} sm={1} className={classes.buttonGrid}>
+            <Button
+              className={classes.submitButton}
+              size="medium"
+              variant="outlined"
+              color="default"
+              onClick={this.showRestaurants}>
+              検索
+            </Button>
+          </Grid>
+        </Grid>
       </div>
     )
   }
