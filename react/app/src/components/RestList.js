@@ -29,12 +29,12 @@ class RestList extends React.Component {
     axios
     .get('http://0.0.0.0:3000/train/restaurants?lat=' + this.props.stationInfo.lat + '&lon=' + this.props.stationInfo.lon)
     .then((results) => {
-      // console.log(results)
+      console.log(results)
       console.log(this.props.stationInfo)
       this.setState({
         restInfoList: results.data.businesses,
       })
-      // console.log(this.state)
+      console.log(this.state)
     })
     .catch((error) => {
       console.log(error)

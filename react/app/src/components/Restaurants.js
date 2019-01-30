@@ -54,6 +54,8 @@ class Restaurants extends React.Component {
     const { classes } = this.props
     const { value } = this.state
 
+    console.log(this.props.location.state)
+
     return (
       <div className={classes.div}>
         <Button

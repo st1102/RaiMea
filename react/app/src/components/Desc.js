@@ -8,11 +8,11 @@ import { Typography} from '@material-ui/core';
 const styles = theme => ({
   div: {
     width: '70%',
-    height: 'calc(100% - 64px - 20px)',
+    height: 'calc(100% - 64px - 20px - 10px)',
     margin: '0 15% 0 15%',
     padding: '1px 0 1px 0',
     background: '#fffd',
-    overflow: 'scroll',
+    // overflow: 'scroll',
   },
   title: {
     margin: theme.spacing.unit*2,
@@ -20,8 +20,17 @@ const styles = theme => ({
   desc: {
     margin: theme.spacing.unit*2,
   },
+  rails: {
+    marginTop: '30px',
+  },
   railsTitle: {
     margin: theme.spacing.unit*2,
+  },
+  railsDesc: {
+    margin: theme.spacing.unit*2,
+  },
+  option: {
+    marginTop: '30px',
   },
   optionTitle: {
     margin: theme.spacing.unit*2,
@@ -54,29 +63,8 @@ class Desc extends React.Component {
           <Typography className={classes.railsTitle} variant='title'>
             対応路線
           </Typography>
-          <Typography className={classes.railName} variant='body2'>
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
+          <Typography className={classes.railsDesc} variant='body2'>
+            駅すぱあと(<a href='https://roote.ekispert.net/ja/'>roote.ekispert.net</a>)内に掲載されている全国の路線
           </Typography>
         </Typography>
         <Typography className={classes.option}>

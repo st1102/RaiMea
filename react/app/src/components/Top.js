@@ -134,7 +134,10 @@ class Top extends React.Component {
 
   showRestaurants(){
     let routeStationsInfo = this.state.stationInfo.filter((item, index) => {
-      return (index >= this.state.stations.indexOf(this.state.depa) && index <= this.state.stations.indexOf(this.state.dest))
+      return (
+        (index >= this.state.stations.indexOf(this.state.depa) && index <= this.state.stations.indexOf(this.state.dest))
+        || (index >= this.state.stations.indexOf(this.state.dest) && index <= this.state.stations.indexOf(this.state.depa))
+      )
     })
     this.props.history.push({
       pathname: '/restaurants',
@@ -189,7 +192,6 @@ class Top extends React.Component {
     .get(
       // 'http://0.0.0.0:3000/train?line=' + this.state.lineName
       'https://api.ekispert.jp/v1/json/station?key=' + stationKey + '&operationLineCode=' + railCode
-
     )
     .then((results) => {
       console.log(results)
@@ -209,7 +211,14 @@ class Top extends React.Component {
       //   i += 1
       // }
       for(let point of results.data.ResultSet.Point){
-        sInfo.push({name: point.Station.Name, lon: point.GeoPoint.longi, lat: point.GeoPoint.lati})
+        // let lonArray = point.GeoPoint.longi.split('.')
+        // let lon =  lonArray[0]+'.'+lonArray[1]+lonArray[2]+lonArray[3]
+        // let latArray = point.GeoPoint.lati.split('.')
+        // let lat =  latArray[0]+'.'+latArray[1]+latArray[2]+latArray[3]
+        // console.log(lon)
+        // console.log(lat)
+        // sInfo.push({name: point.Station.Name, lon: lon, lat: lat})
+        sInfo.push({name: point.Station.Name, lon: point.GeoPoint.longi_d, lat: point.GeoPoint.lati_d})
         sName.push({value: point.Station.Name, label: point.Station.Name})
       }
       // console.log(sInfo)

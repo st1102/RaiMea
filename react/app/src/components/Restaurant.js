@@ -170,7 +170,7 @@ class Restaurant extends React.Component {
             </div>
             <div className={classes.yelp}>
               <Typography variant='subheading'>
-                <a className={classes.yelpUrl} href={this.props.location.state.restDetail.url} target='_blank'>Yelpで詳細,予約</a>
+                <a className={classes.yelpUrl} href={this.props.location.state.restDetail.url} target='_blank'>Yelpで詳細を見る</a>
               </Typography>
             </div>
             <div className={classes.search}>
