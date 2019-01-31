@@ -12,6 +12,10 @@ const styles = theme => ({
     width: '80%',
     margin: '0 10% 0 10%',
     overflow: 'scroll',
+    [theme.breakpoints.down('sm')]: {
+      width: 'calc(100% - 20px)',
+      margin: '10px',
+    },
   },
   backBtn: {
     position: 'absolute',
@@ -21,8 +25,8 @@ const styles = theme => ({
   },
   backBtnFab: {
     position: 'absolute',
-    top: 'calc(64px + 20px)', // appbar+margin分マイナス
-    left: '3%',
+    bottom: theme.spacing.unit,
+    left: theme.spacing.unit,
     background: '#f50057cc',
   },
   backIcon: {
@@ -64,7 +68,7 @@ class Restaurants extends React.Component {
 
     return (
       <div className={classes.div}>
-        <Hidden xsDown>
+        <Hidden smDown>
           <Button
             className={classes.backBtn}
             color="secondary"
@@ -74,7 +78,7 @@ class Restaurants extends React.Component {
             <ArrowBackIos className={classes.backIcon} />
           </Button>
         </Hidden>
-        <Hidden smUp>
+        <Hidden mdUp>
           <Button
             className={classes.backBtnFab}
             color="secondary"

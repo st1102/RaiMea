@@ -19,7 +19,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '50%',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       width: '70%',
     },
   },
@@ -41,7 +41,7 @@ const styles = theme => ({
       margin: '0',
       overflow: 'hidden',
       whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis', 
+      textOverflow: 'ellipsis',
     },
   },
   accessIcon: {
@@ -49,7 +49,7 @@ const styles = theme => ({
   },
   imgList: {
     width: '50%',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       width: '30%',
     },
   },
