@@ -340,10 +340,10 @@ class Top extends React.Component {
                           </Paper>)
                         : (
                           (this.state.railSuggestions.length == 0) ? (
-                            <Paper square>
+                            <Paper square　className={classes.railPaper}>
                             </Paper>
                           ) : (
-                            <Paper square>
+                            <Paper square　className={classes.railPaper}>
                               {(this.state.railSuggestions === !inputValue || this.state.railSuggestions.Name.includes(inputValue)) ?
                                 (<MenuItem
                                   {...getItemProps({

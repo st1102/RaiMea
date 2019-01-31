@@ -1,23 +1,29 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router';
-import { Tabs, Tab, Button } from '@material-ui/core';
+import { Tabs, Tab, Button, Hidden } from '@material-ui/core';
 import { ArrowBackIos } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import RestList from './RestList';
 
 const styles = theme => ({
   div: {
-    height: 'calc(100% - 64px - 20px)', // appbar+margin分マイナス
+    height: 'calc(100% - 10% - 20px)', // appbar+margin分マイナス
     width: '80%',
     margin: '0 10% 0 10%',
     overflow: 'scroll',
   },
   backBtn: {
     position: 'absolute',
-    top: 'calc(64px + 20px)', // appbar+margin分マイナス
+    top: 'calc(10% + 20px)', // appbar+margin分マイナス
     left: '10px',
     height: '48px',
+  },
+  backBtnFab: {
+    position: 'absolute',
+    top: 'calc(64px + 20px)', // appbar+margin分マイナス
+    left: '3%',
+    background: '#f50057cc',
   },
   backIcon: {
     marginLeft: '8px',
@@ -58,14 +64,26 @@ class Restaurants extends React.Component {
 
     return (
       <div className={classes.div}>
-        <Button
-          className={classes.backBtn}
-          color="secondary"
-          variant="contained"
-          onClick={this.goBack}
-        >
-          <ArrowBackIos className={classes.backIcon} />
-        </Button>
+        <Hidden xsDown>
+          <Button
+            className={classes.backBtn}
+            color="secondary"
+            variant="contained"
+            onClick={this.goBack}
+          >
+            <ArrowBackIos className={classes.backIcon} />
+          </Button>
+        </Hidden>
+        <Hidden smUp>
+          <Button
+            className={classes.backBtnFab}
+            color="secondary"
+            variant="fab"
+            onClick={this.goBack}
+          >
+            <ArrowBackIos className={classes.backIcon} />
+          </Button>
+        </Hidden>
         <div className={classes.innerDiv}>
           <Tabs
             className={classes.tabs}
