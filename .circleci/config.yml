@@ -7,7 +7,7 @@ jobs:
 
     steps:
       - checkout
-      - run
+      - run:
           command: ls
       # - restore_cache:
       #     key: projectname-{{ .Branch }}-{{ checksum "yarn.lock" }}
