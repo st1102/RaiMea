@@ -9,7 +9,7 @@ jobs:
 
       - add_ssh_keys:
           fingerprints:
-            - "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+            - "45:bd:b8:3a:ca:f7:70:7c:0e:01:f5:3e:b4:75:79:91"
 
       - run:
           name: Start ssh-keyscan
