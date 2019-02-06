@@ -1,13 +1,13 @@
 version: 2
 jobs:
   build:
-    # working_directory: ./
+    working_directory: ./react/app
     docker:
       - image: circleci/node:8.9
 
     steps:
       - checkout
-      - run:
+      - run
           command: ls
       # - restore_cache:
       #     key: projectname-{{ .Branch }}-{{ checksum "yarn.lock" }}
