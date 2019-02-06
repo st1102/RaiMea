@@ -6,13 +6,32 @@ jobs:
 
     steps:
       - checkout
+      - restore_cache:
+          key: projectname-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: System information
+          command: |
+            echo "Node $(node -v)"
+            echo "Yarn v$(yarn --version)"
+      - run:
+          name: Install dependencies
+          command: yarn
+      - run:
+          name: Build
+          command: yarn run build
+      - run:
+          name: Test
+          command: yarn test
+      - save_cache:
+          key: projectname-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/workspace/node_modules
+            - ~/.cache/yarn/
       # - run: echo "A first hello"
       # - add_ssh_keys:
       #     fingerprints:
       #       - "45:bd:b8:3a:ca:f7:70:7c:0e:01:f5:3e:b4:75:79:91"
       #
-      - run: npm install
-      - run: npm run build
       # - run:
       #     name: Start ssh-keyscan
       #     command: |
