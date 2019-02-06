@@ -9,6 +9,7 @@ jobs:
       - checkout
       - run:
           command: ls
+          command: npm build
       # - restore_cache:
       #     key: projectname-{{ .Branch }}-{{ checksum "yarn.lock" }}
       # - run:
