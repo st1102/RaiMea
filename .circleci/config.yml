@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+    working_directory: ./react/app
     docker:
       - image: circleci/node:8.9
 
